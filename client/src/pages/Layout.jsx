@@ -6,7 +6,7 @@ const Layout = () => {
   return (
     <div>
       {/* this is layout page */}
-      <div className="min-h-screen bg-gray-900">
+      <div className="min-h-screen bg-[#E8F1FF] px-6 sm:px-12 py-10">
         <Navbar />
         <Outlet />
       </div>

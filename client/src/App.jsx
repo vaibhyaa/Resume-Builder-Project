@@ -18,7 +18,18 @@ function App() {
           <Route index element={<Dashboard />} />
           {/* this is index route  */}
           {/* When user visits /app (without anything after it),→ show Dashboard */}
-          <Route path="resume-builder/:resumeId/edit" element={<ResumeBuilder />} />
+          <Route
+            path="resume-builder/new"
+            element={<ResumeBuilder />}
+          />
+          <Route
+            path="resume-builder/:resumeId/edit"
+            element={<ResumeBuilder />}
+          />
+          {/* <Route
+            path="resume-builder/:resumeId/edit"
+            element={<ResumeBuilder />}
+          /> */}
           {/* This is a childe route of /app example http://localhost:3000/app/resume-builder/123 */}
           {/* This captures values from URL. */}
           {/* /app/resume-builder/10, /app/resume-builder/abc123 */}
@@ -47,25 +58,15 @@ export default App;
 // /view/:resumeId → Preview (public view)
 // /login          → Login Page
 
-
-
-
 // | URL                           | What Loads                                       |
 // | ----------------------------- | ------------------------------------------------ |
 // | `/app`                        | Layout → Dashboard                               |
 // | **`/app/resume-builder/123`** | **Layout → ResumeBuilder (with resumeId = 123)** |
 
-
-
-
 // Example 1: Visiting /app
 // React loads:
 // <Layout />
 // Inside it → <Dashboard /> (because it's the index route)
-
-
-
-
 
 // Example 2: Visiting /app/resume-builder/123
 // React loads:

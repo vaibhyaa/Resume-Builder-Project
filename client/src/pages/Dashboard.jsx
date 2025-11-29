@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  FilePenLineIcon,
-  PencilIcon,
-  PlusIcon,
-  TrashIcon,
-  UploadCloud,
-  UploadCloudIcon,
-  XIcon,
-} from "lucide-react";
+import { FilePenLineIcon, PencilIcon, TrashIcon } from "lucide-react";
 import { dummyResumeData } from "../assets/assets";
 import { Form, Navigate, useNavigate } from "react-router-dom";
+import ResumeIcons from "../components/DashBoardPages/ResumeIcons";
+import ShowCreateResumeForm from "../components/DashBoardPages/ShowCreateResumeForm";
+import UploadResumeForm from "../components/DashBoardPages/UploadResumeForm";
+import EditResume from "../components/DashBoardPages/EditResume";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -35,10 +31,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadAllResumes(dummyResumeData);
-
-    // return () => {
-    //   second
-    // }
   }, []);
   // Runs only once when page loads.
   // Fills UI with dummy resumes.
@@ -46,32 +38,37 @@ const Dashboard = () => {
   return (
     <div>
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <p className="text-2xl font-medium mb-6 bg-liner-to-r from-slate-700 to-slate-800 bg-clip-text text-transparent sm:hidden">
+        <p className="text-3xl font-semibold mb-6 tracking-wide bg-linear-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent drop-shadow-sm sm:hidden">
           Welcome, Joe Doe
         </p>
+        {/* <h1>vaibhav shinde</h1> */}
 
-        <div className="flex gap-4">
+        <ResumeIcons
+          setshowcreateResume={setshowcreateResume}
+          setshowUploadResume={setshowUploadResume}
+        />
+        {/* <div className="flex gap-4">
           <button
             onClick={() => {
               setshowcreateResume(true);
             }}
-            // value={createResume}
-            // onClick={() => {}}
-            // className="p-2 flex items-center justify-center hover:bg-gray-200 rounded-full cursor-pointer"
+            value={createResume}
+            onClick={() => {}}
+            className="p-2 flex items-center justify-center hover:bg-gray-200 rounded-full cursor-pointer"
             className="w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-indigo-500 hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             <PlusIcon className="size-11 transition-all duration-300 p-3 bg-linear-to-br from-indigo-400 text-white rounded-full" />
             <p className="text-sm group-hover:text-red-400 transition-all duration-300">
               Create Resume
             </p>
-            {/* when click on this button only Shows popup form */}
+            when click on this button only Shows popup form
           </button>
 
           <button
             onClick={() => {
               setshowUploadResume(true);
             }}
-            // className="p-2 flex items-center justify-center hover:bg-gray-200 rounded-full cursor-pointer"
+            className="p-2 flex items-center justify-center hover:bg-gray-200 rounded-full cursor-pointer"
             className="w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-indigo-500 hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             <UploadCloudIcon className="size-11 transition-all duration-300 p-3 bg-linear-to-br from-indigo-300 to-indigo-500 text-white rounded-full" />
@@ -79,18 +76,20 @@ const Dashboard = () => {
               Upload Existing
             </p>
           </button>
-        </div>
+        </div> */}
 
         <hr className="border-slate-400 my-6 sm:w-[305px]" />
         <div className="grid grid-cols-2 sm:flex flex-wrap gap-5">
           {/* renders dummy data */}
           {allResumes.map((eachresume) => {
+            // console.log(allResumes);
+
             return (
               <button
                 onClick={() =>
                   navigate(`/app/resume-builder/${eachresume._id}/edit`)
                 }
-                key={eachresume.id}
+                key={eachresume._id}
                 className="relative w-full sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border group hover:shadow-lg transition-all duration-300 cursor-pointer"
                 style={{
                   backgroundColor: "whitesmoke",
@@ -111,9 +110,52 @@ const Dashboard = () => {
                 <p className="absolute bottom-1 text-[11px] text-slate-950 group-hover:text-slate-900 transition-all duration-200 px-2.5 text-center">
                   Updated on {new Date(eachresume.updatedAt).toLocaleString()}
                 </p>
-                <div className="absolute top-0.5 right-1 group-hover:flex items-center hidden">
-                  <TrashIcon className="size-9 p-2 hover:bg-white/55 rounded text-slate-800 transition-colors" />
-                  <PencilIcon className="size-9 p-2 hover:bg-white/55 rounded text-slate-800 transition-colors" />
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  className="absolute top-0.5 right-1 group-hover:flex items-center hidden"
+                >
+                  <TrashIcon
+                    // onClick={() => {
+                    //   // console.log(eachresume._id);
+                    //   const confirmDelete = window.confirm(
+                    //     "Are you sure you want to delete this resume?"
+                    //   );
+                    //   if (!confirmDelete) return;
+
+                    //   setallResumes((prevState) =>
+                    //     prevState.filter((each) => each._id !== eachresume.id)
+                    //   );
+                    // }}
+                    onClick={() => {
+                      async function Delete(resumeId) {
+                        // console.log(resumeId);
+
+                        const confirm = window.confirm(
+                          "want to delete resume ?"
+                        );
+                        if (confirm) {
+                          setallResumes((previusStateofAllResumes) => {
+                            return previusStateofAllResumes.filter(
+                              (eachResume) => {
+                                return eachResume._id !== resumeId;
+                              }
+                            );
+                          });
+                        }
+                      }
+                      return Delete(eachresume._id);
+                    }}
+                    className="size-9 p-2 hover:bg-white/55 rounded text-slate-800 transition-colors"
+                  />
+                  <PencilIcon
+                    onClick={() => {
+                      seteditResumeId(eachresume._id);
+                      settitleName(eachresume.title);
+                    }}
+                    className="size-9 p-2 hover:bg-white/55 rounded text-slate-800 transition-colors"
+                  />
                 </div>
               </button>
               //             <button
@@ -178,7 +220,13 @@ const Dashboard = () => {
           })}
         </div>
 
-        {showcreateResume && (
+        <ShowCreateResumeForm
+          titleName={titleName}
+          showcreateResume={showcreateResume}
+          setshowcreateResume={setshowcreateResume}
+          settitleName={settitleName}
+        />
+        {/* {showcreateResume && (
           <form
             onSubmit={async (e) => {
               e.preventDefault();
@@ -228,9 +276,78 @@ const Dashboard = () => {
               />
             </div>
           </form>
-        )}
+        )} */}
 
-        {showUploadResume && (
+        <UploadResumeForm
+          titleName={titleName}
+          resume={resume}
+          showUploadResume={showUploadResume}
+          setshowUploadResume={setshowUploadResume}
+          settitleName={settitleName}
+          setresume={setresume}
+        />
+
+        <EditResume
+          editResumeId={editResumeId}
+          seteditResumeId={seteditResumeId}
+          settitleName={settitleName}
+          titleName={titleName}
+        />
+
+        {/* {editResumeId && (
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              // seteditResumeId(false);
+              // navigate("/app/resume-builder/new");
+              // navigate("/app/resume-builder/new/123");
+              // Prevents page refresh
+              // Closes popup
+              // Navigates to resume builder page
+            }}
+            onClick={() => {
+              seteditResumeId("");
+            }}
+            action=""
+            className="fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50
+            z-10 flex items-center justify-center"
+          >
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              className="relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6"
+            >
+              <h2 className="text-xl font-bold mb-4">Edit Resume Iitle</h2>
+              <input
+                onChange={(e) => {
+                  const value = e.target.value;
+                  console.log(value);
+                  settitleName(value);
+                }}
+                value={titleName}
+                type="text"
+                placeholder="Enter Resume Title"
+                className="w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600"
+                required
+              />
+              <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-800 transition-colors">
+                Update
+              </button>
+              <XIcon
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                onClick={() => {
+                  seteditResumeId("");
+                  settitleName("");
+                  // Closes modal
+                  // Clears title
+                }}
+              />
+            </div>
+          </form>
+        )} */}
+
+        {/* {showUploadResume && (
           <form
             onSubmit={async (e) => {
               e.preventDefault();
@@ -306,7 +423,7 @@ const Dashboard = () => {
               />
             </div>
           </form>
-        )}
+        )} */}
       </div>
     </div>
   );

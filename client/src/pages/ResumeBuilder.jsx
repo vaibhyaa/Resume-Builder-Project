@@ -1,7 +1,9 @@
 import React from "react";
 
 const ResumeBuilder = () => {
-  return <div>ResumeBuilder page</div>;
+  return <div>ResumeBuilder page
+    
+  </div>;
 };
 
 export default ResumeBuilder;
