@@ -18,7 +18,7 @@ function App() {
           <Route index element={<Dashboard />} />
           {/* this is index route  */}
           {/* When user visits /app (without anything after it),→ show Dashboard */}
-          <Route path="resume-builder/:resumeId" element={<ResumeBuilder />} />
+          <Route path="resume-builder/:resumeId/edit" element={<ResumeBuilder />} />
           {/* This is a childe route of /app example http://localhost:3000/app/resume-builder/123 */}
           {/* This captures values from URL. */}
           {/* /app/resume-builder/10, /app/resume-builder/abc123 */}

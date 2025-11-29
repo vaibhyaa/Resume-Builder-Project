@@ -19,7 +19,7 @@ export const Hero = () => {
         {/* Navbar */}
         <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm">
           {/* <a href="https://prebuiltui.com"> */}
-            {/* <svg
+          {/* <svg
               width="157"
               height="40"
               viewBox="0 0 157 40"
@@ -38,15 +38,15 @@ export const Hero = () => {
                 stroke-linejoin="round"
               />
             </svg> */}
-            <img
-              src="https://imgs.search.brave.com/0WOA92BRHvszErwmeTWWd3l24IOwx_Pw5p3zItM-Ytc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS12ZWN0b3Iv/cmVzdW1lLWN2LWpv/Yi1jb21wb3NpdGlv/bi13aXRoLWZsYXQt/aXNvbGF0ZWQtdGV4/dC13aXRoLXdvbWFu/LXBhcGVyLXByb2Zp/bGVzLXBpbm5lZC1s/ZXR0ZXJzLXZlY3Rv/ci1pbGx1c3RyYXRp/b25fMTI4NC04NDE2/NC5qcGc_c2VtdD1h/aXNfaW5jb21pbmcm/dz03NDAmcT04MA"
-              alt=""
-              className="h-15 w-auto"
-            />
+          <img
+            src="https://imgs.search.brave.com/0WOA92BRHvszErwmeTWWd3l24IOwx_Pw5p3zItM-Ytc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS12ZWN0b3Iv/cmVzdW1lLWN2LWpv/Yi1jb21wb3NpdGlv/bi13aXRoLWZsYXQt/aXNvbGF0ZWQtdGV4/dC13aXRoLXdvbWFu/LXBhcGVyLXByb2Zp/bGVzLXBpbm5lZC1s/ZXR0ZXJzLXZlY3Rv/ci1pbGx1c3RyYXRp/b25fMTI4NC04NDE2/NC5qcGc_c2VtdD1h/aXNfaW5jb21pbmcm/dz03NDAmcT04MA"
+            alt=""
+            className="h-15 w-auto"
+          />
           {/* </a> */}
 
           <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
-            <Link to={"/app"} className="hover:text-indigo-600 transition">
+            <Link to={"#"} className="hover:text-indigo-600 transition">
               Home
             </Link>
             <Link href="#features" className="hover:text-indigo-600 transition">
@@ -65,13 +65,15 @@ export const Hero = () => {
 
           <div className="flex gap-2">
             <Link
-              to={"/app?state=register"}
+              // to={"/app?state=register"}
+              to={"/login/?state=register"}
               className="hidden md:block px-6 py-2 bg-indigo-500 hover:bg-indigo-700 active:scale-95 transition-all rounded-full text-white"
             >
               Get started
             </Link>
             <Link
-              to={"/app?state=Login"}
+              // to={"/app?state=Login"}
+              to={"/login/?state=login"}
               className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-50 transition-all rounded-full text-slate-700 hover:text-slate-900"
             >
               Login
