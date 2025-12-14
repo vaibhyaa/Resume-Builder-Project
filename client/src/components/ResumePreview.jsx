@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import ClassicTemplate from "./templates/ClassicTemplate";
 import MinimalImageTemplate from "./templates/MinimalImageTemplate";
 import MinimalTemplate from "./templates/MinimalTemplate";
@@ -6,23 +6,41 @@ import ModernTemplate from "./templates/ModernTemplate";
 import { Accessibility } from "lucide-react";
 import ThemedModernTemplate from "./templates/ThemedModernTemplate";
 
-const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
+const TEMPLATE_MAP = {
+  classic: ClassicTemplate,
+  modern: ModernTemplate,
+  minimal: MinimalTemplate,
+  minimalImage: MinimalImageTemplate,
+  themedModern: ThemedModernTemplate,
+};
+
+const ResumePreview = ({
+  data,
+  template = "classic",
+  accentColor,
+  classes = "",
+}) => {
   console.log(data);
-  
-  const renderTemplate = () => {
-    switch (template) {
-      case "modern":
-        return <ModernTemplate data={data} accentColor={accentColor} />;
-      case "minimal":
-        return <MinimalTemplate data={data} accentColor={accentColor} />;
-      case "minimalImage":
-        return <MinimalImageTemplate data={data} accentColor={accentColor} />;
-      case "themedModern":
-        return <ThemedModernTemplate data={data} accentColor={accentColor} />;
-      default:
-        return <ClassicTemplate data={data} accentColor={accentColor} />;
-    }
-  };
+
+  // const renderTemplate = () => {
+  //   switch (template) {
+  //     case "modern":
+  //       return <ModernTemplate data={data} accentColor={accentColor} />;
+  //     case "minimal":
+  //       return <MinimalTemplate data={data} accentColor={accentColor} />;
+  //     case "minimalImage":
+  //       return <MinimalImageTemplate data={data} accentColor={accentColor} />;
+  //     case "themedModern":
+  //       return <ThemedModernTemplate data={data} accentColor={accentColor} />;
+  //     default:
+  //       return <ClassicTemplate data={data} accentColor={accentColor} />;
+  //   }
+  // };
+
+  const SelectedTemplate = useMemo(() => {
+    return TEMPLATE_MAP[template] || ClassicTemplate;
+  }, [template]);
+
   return (
     <div className="w-full bg-gray-200">
       <div
@@ -32,7 +50,10 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
           classes
         }
       >
-        {renderTemplate()}
+        {/* {renderTemplate()} */}
+
+        <SelectedTemplate data={data} accentColor={accentColor} />
+
         <style jsx>{`
           @page {
             size: letter;
@@ -46,7 +67,6 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
               height: 11in;
               overflow: hidden;
             }
-
 
             body * {
               visibility: hidden;
@@ -76,10 +96,7 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
 
 export default ResumePreview;
 
-
-
-
-// Different version of component 
+// Different version of component
 // {================================================================================================}
 // import React, { useMemo } from "react";
 // import ClassicTemplate from "./templates/ClassicTemplate";
