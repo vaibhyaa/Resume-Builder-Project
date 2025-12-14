@@ -1,4 +1,4 @@
-import { MailOpenIcon, MapPin, PhoneCallIcon } from "lucide-react";
+import { MailIcon, MailOpenIcon, MapPin, PhoneCallIcon } from "lucide-react";
 
 
 
@@ -69,7 +69,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
               {data.personal_info?.email && (
                 <div className="flex items-center gap-2">
                   {/* <Mail size={14} style={{ color: accentColor }} /> */}
-                  <MailOpenIcon size={14} style={{ color: accentColor }} />
+                  <MailIcon size={14} style={{ color: accentColor }} />
                   <span>{data.personal_info.email}</span>
                 </div>
               )}
