@@ -40,7 +40,7 @@ const ShowCreateResumeForm = ({
             <input
               onChange={(e) => {
                 const value = e.target.value;
-                console.log(value);
+                // console.log(value);
                 settitleName(value);
               }}
               value={titleName}

@@ -6,7 +6,9 @@ const EditResume = ({
   seteditResumeId,
   settitleName,
   titleName,
+  // updateResumeTitle,
 }) => {
+  if (!editResumeId) return null;
   return (
     <div>
       {editResumeId && (
@@ -19,6 +21,8 @@ const EditResume = ({
             // Prevents page refresh
             // Closes popup
             // Navigates to resume builder page
+            // updateResumeTitle(editResumeId, titleName);
+            // seteditResumeId("");
           }}
           onClick={() => {
             seteditResumeId("");
@@ -37,7 +41,7 @@ const EditResume = ({
             <input
               onChange={(e) => {
                 const value = e.target.value;
-                console.log(value);
+                // console.log(value);
                 settitleName(value);
               }}
               value={titleName}

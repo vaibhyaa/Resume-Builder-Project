@@ -38,9 +38,9 @@ const Dashboard = () => {
   return (
     <div>
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <p className="text-3xl font-semibold mb-6 tracking-wide bg-linear-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent drop-shadow-sm sm:hidden">
+        <h1 className="text-3xl font-semibold mb-6 tracking-wide bg-linear-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent drop-shadow-sm sm:hidden">
           Welcome, Joe Doe
-        </p>
+        </h1>
         {/* <h1>vaibhav shinde</h1> */}
 
         <ResumeIcons
@@ -85,79 +85,153 @@ const Dashboard = () => {
             // console.log(allResumes);
 
             return (
+              // <button
+              //   onClick={() =>
+              //     navigate(`/app/resume-builder/${eachresume._id}/edit`)
+              //   }
+              //   key={eachresume._id}
+              //   className="relative w-full sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border group hover:shadow-lg transition-all duration-300 cursor-pointer"
+              //   style={{
+              //     backgroundColor: "whitesmoke",
+              //     // background:
+              //     // "url('https://i.imgur.com/aKQOg3G.png') center/cover no-repeat",
+              //     // "url('https://i.imgur.com/0Zf0JtW.jpg') center/cover no-repeat",
+              //     // "url('https://i.imgur.com/aKQOg3G.png') center/cover no-repeat",
+              //   }}
+              // >
+              //   <hr className="border-slate-400 my-1 sm:w-[90px]" />
+              //   <FilePenLineIcon
+              //     className="size-7 group-hover:scale-110 transition-all text-blue-600"
+              //     style={{}}
+              //   />
+              //   <p className="text-sm group-hover:scale-105 transition-all px-2 text-center">
+              //     {eachresume.title}
+              //   </p>
+              //   <p className="absolute bottom-1 text-[11px] text-slate-950 group-hover:text-slate-900 transition-all duration-200 px-2.5 text-center">
+              //     Updated on {new Date(eachresume.updatedAt).toLocaleString()}
+              //   </p>
+              //   <div
+              //     onClick={(e) => {
+              //       e.stopPropagation();
+              //     }}
+              //     className="absolute top-0.5 right-1 group-hover:flex items-center hidden"
+              //   >
+              //     <TrashIcon
+              //       // onClick={() => {
+              //       //   // console.log(eachresume._id);
+              //       //   const confirmDelete = window.confirm(
+              //       //     "Are you sure you want to delete this resume?"
+              //       //   );
+              //       //   if (!confirmDelete) return;
+
+              //       //   setallResumes((prevState) =>
+              //       //     prevState.filter((each) => each._id !== eachresume.id)
+              //       //   );
+              //       // }}
+              //       onClick={() => {
+              //         async function Delete(resumeId) {
+              //           // console.log(resumeId);
+
+              //           const confirm = window.confirm(
+              //             "want to delete resume ?"
+              //           );
+              //           if (confirm) {
+              //             setallResumes((previusStateofAllResumes) => {
+              //               return previusStateofAllResumes.filter(
+              //                 (eachResume) => {
+              //                   return eachResume._id !== resumeId;
+              //                 }
+              //               );
+              //             });
+              //           }
+              //         }
+              //         return Delete(eachresume._id);
+              //       }}
+              //       className="size-9 p-2 hover:bg-white/55 rounded text-slate-800 transition-colors"
+              //     />
+              //     <PencilIcon
+              //       onClick={() => {
+              //         seteditResumeId(eachresume._id);
+              //         settitleName(eachresume.title);
+              //       }}
+              //       className="size-9 p-2 hover:bg-white/55 rounded text-slate-800 transition-colors"
+              //     />
+              //   </div>
+              // </button>
               <button
                 onClick={() =>
                   navigate(`/app/resume-builder/${eachresume._id}/edit`)
                 }
                 key={eachresume._id}
-                className="relative w-full sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border group hover:shadow-lg transition-all duration-300 cursor-pointer"
-                style={{
-                  backgroundColor: "whitesmoke",
-                  // background:
-                  // "url('https://i.imgur.com/aKQOg3G.png') center/cover no-repeat",
-                  // "url('https://i.imgur.com/0Zf0JtW.jpg') center/cover no-repeat",
-                  // "url('https://i.imgur.com/aKQOg3G.png') center/cover no-repeat",
-                }}
+                className="relative group w-full sm:w-44 h-52 rounded-xl 
+             bg-white border border-slate-200 shadow-sm 
+             hover:shadow-md hover:border-slate-300 
+             transition-all duration-300 cursor-pointer 
+             flex flex-col items-center justify-center px-3"
               >
-                <hr className="border-slate-400 my-1 sm:w-[90px]" />
-                <FilePenLineIcon
-                  className="size-7 group-hover:scale-110 transition-all text-blue-600"
-                  style={{}}
-                />
-                <p className="text-sm group-hover:scale-105 transition-all px-2 text-center">
-                  {eachresume.title}
-                </p>
-                <p className="absolute bottom-1 text-[11px] text-slate-950 group-hover:text-slate-900 transition-all duration-200 px-2.5 text-center">
-                  Updated on {new Date(eachresume.updatedAt).toLocaleString()}
-                </p>
+                {/* Top Action Icons */}
                 <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  className="absolute top-0.5 right-1 group-hover:flex items-center hidden"
+                  onClick={(e) => e.stopPropagation()}
+                  className="absolute top-2 right-2 hidden group-hover:flex gap-1"
                 >
+                  {/* DELETE */}
                   <TrashIcon
-                    // onClick={() => {
-                    //   // console.log(eachresume._id);
-                    //   const confirmDelete = window.confirm(
-                    //     "Are you sure you want to delete this resume?"
-                    //   );
-                    //   if (!confirmDelete) return;
-
-                    //   setallResumes((prevState) =>
-                    //     prevState.filter((each) => each._id !== eachresume.id)
-                    //   );
-                    // }}
                     onClick={() => {
                       async function Delete(resumeId) {
-                        // console.log(resumeId);
-
-                        const confirm = window.confirm(
-                          "want to delete resume ?"
+                        const confirmDelete = window.confirm(
+                          "Want to delete this resume?"
                         );
-                        if (confirm) {
-                          setallResumes((previusStateofAllResumes) => {
-                            return previusStateofAllResumes.filter(
-                              (eachResume) => {
-                                return eachResume._id !== resumeId;
-                              }
-                            );
-                          });
+                        if (confirmDelete) {
+                          setallResumes((prev) =>
+                            prev.filter((item) => item._id !== resumeId)
+                          );
                         }
                       }
-                      return Delete(eachresume._id);
+                      Delete(eachresume._id);
                     }}
-                    className="size-9 p-2 hover:bg-white/55 rounded text-slate-800 transition-colors"
+                    className="size-8 p-2 rounded-md bg-white/80 
+                 hover:bg-red-50 text-slate-700 hover:text-red-600 
+                 border border-slate-200 hover:border-red-300 
+                 transition-all"
                   />
+
+                  {/* EDIT */}
                   <PencilIcon
                     onClick={() => {
                       seteditResumeId(eachresume._id);
                       settitleName(eachresume.title);
                     }}
-                    className="size-9 p-2 hover:bg-white/55 rounded text-slate-800 transition-colors"
+                    className="size-8 p-2 rounded-md bg-white/80 
+                 hover:bg-blue-50 text-slate-700 hover:text-blue-600 
+                 border border-slate-200 hover:border-blue-300 
+                 transition-all"
                   />
                 </div>
+
+                {/* Divider */}
+                <div className="w-16 border-t border-slate-300 my-4"></div>
+
+                {/* Main Icon */}
+                <FilePenLineIcon
+                  className="size-8 text-blue-600 
+               group-hover:scale-110 
+               transition-transform duration-300"
+                />
+
+                {/* Title */}
+                <p
+                  className="mt-3 text-sm font-medium leading-tight text-center text-slate-800 
+                group-hover:text-blue-700 group-hover:scale-[1.03] transition-all"
+                >
+                  {eachresume.title}
+                </p>
+
+                {/* Updated time */}
+                <p className="absolute bottom-2 text-[11px] text-slate-500 text-center px-2">
+                  Updated on {new Date(eachresume.updatedAt).toLocaleString()}
+                </p>
               </button>
+
               //             <button
               //               key={eachresume.id}
               //               className="
@@ -292,6 +366,7 @@ const Dashboard = () => {
           seteditResumeId={seteditResumeId}
           settitleName={settitleName}
           titleName={titleName}
+          // updateResumeTitle={updateResumeTitle}
         />
 
         {/* {editResumeId && (
