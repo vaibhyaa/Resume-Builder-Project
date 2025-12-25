@@ -20,7 +20,7 @@ const ResumePreview = ({
   accentColor,
   classes = "",
 }) => {
-  console.log(data);
+  // console.log(data);
 
   // const renderTemplate = () => {
   //   switch (template) {

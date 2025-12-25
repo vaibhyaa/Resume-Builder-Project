@@ -1,10 +1,9 @@
 import { MailIcon, MailOpenIcon, MapPin, PhoneCallIcon } from "lucide-react";
 
-
-
 const MinimalImageTemplate = ({ data, accentColor }) => {
-  console.log(data.professional_info);
-  console.log(accentColor);
+  // console.log(data.professional_info);
+  // console.log(accentColor);
+  // console.log(data);
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "";
@@ -151,6 +150,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
               </h2>
               <div className="space-y-6 mb-8">
                 {data.experience.map((exp, index) => (
+                  // console.log(exp),
                   <div key={index}>
                     <div className="flex justify-between items-center">
                       <h3 className="font-semibold text-zinc-900">
@@ -194,6 +194,9 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                     </h3>
                     <p className="text-sm mb-1" style={{ color: accentColor }}>
                       {project.type}
+                    </p>
+                    <p className="text-sm mb-1" style={{ color: accentColor }}>
+                      {project.projectLink}
                     </p>
                     {project.description && (
                       <ul className="list-disc list-inside text-sm text-zinc-700  space-y-1">
