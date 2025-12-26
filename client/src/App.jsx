@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Layout from "./pages/Layout";
-import Dashboard from "./pages/Dashboard";
-import ResumeBuilder from "./pages/ResumeBuilder";
-import Preview from "./pages/Preview";
-import Login from "./pages/Login";
+import Home from "./pages/HomePage/Home";
+import Layout from "./pages/MainDashboardPage/Sections/Layout";
+import Dashboard from "./pages/MainDashboardPage/Dashboard";
+import ResumeBuilder from "./pages/MainDashboardPage/Sections/ResumeBuilder";
+import Preview from "./pages/MainDashboardPage/Preview/Preview";
+import Login from "./pages/LoginPage/Login";
 
 function App() {
   return (
@@ -18,10 +18,7 @@ function App() {
           <Route index element={<Dashboard />} />
           {/* this is index route  */}
           {/* When user visits /app (without anything after it),→ show Dashboard */}
-          <Route
-            path="resume-builder/new"
-            element={<ResumeBuilder />}
-          />
+          <Route path="resume-builder/new" element={<ResumeBuilder />} />
           <Route
             path="resume-builder/:resumeId/edit"
             element={<ResumeBuilder />}

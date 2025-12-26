@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
-import ClassicTemplate from "./templates/ClassicTemplate";
-import MinimalImageTemplate from "./templates/MinimalImageTemplate";
-import MinimalTemplate from "./templates/MinimalTemplate";
-import ModernTemplate from "./templates/ModernTemplate";
+import ClassicTemplate from "../templates/ClassicTemplate";
+import MinimalImageTemplate from "../templates/MinimalImageTemplate";
+import MinimalTemplate from "../templates/MinimalTemplate";
+import ModernTemplate from "../templates/ModernTemplate";
 import { Accessibility } from "lucide-react";
-import ThemedModernTemplate from "./templates/ThemedModernTemplate";
+import ThemedModernTemplate from "../templates/ThemedModernTemplate";
 
 const TEMPLATE_MAP = {
   classic: ClassicTemplate,
@@ -21,21 +21,6 @@ const ResumePreview = ({
   classes = "",
 }) => {
   // console.log(data);
-
-  // const renderTemplate = () => {
-  //   switch (template) {
-  //     case "modern":
-  //       return <ModernTemplate data={data} accentColor={accentColor} />;
-  //     case "minimal":
-  //       return <MinimalTemplate data={data} accentColor={accentColor} />;
-  //     case "minimalImage":
-  //       return <MinimalImageTemplate data={data} accentColor={accentColor} />;
-  //     case "themedModern":
-  //       return <ThemedModernTemplate data={data} accentColor={accentColor} />;
-  //     default:
-  //       return <ClassicTemplate data={data} accentColor={accentColor} />;
-  //   }
-  // };
 
   const SelectedTemplate = useMemo(() => {
     return TEMPLATE_MAP[template] || ClassicTemplate;

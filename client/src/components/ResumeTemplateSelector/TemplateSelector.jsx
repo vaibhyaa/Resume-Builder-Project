@@ -43,36 +43,6 @@ const TemplateSelector = ({ selectedTemplate, onChange }) => {
       </button>
       {isOpen && (
         <div className="absolute top-full w-xs p-3 mt-2 space-y-3 z-10 bg-white rounded-md border border-gray-200 shadow-sm">
-          {/* {templates.map((eachTemplate) => {
-            <div
-              key={eachTemplate.id}
-              onClick={() => {
-                onchange(eachTemplate.id);
-                setisOpen(false);
-              }}
-              className={`relative p-3 border rounded-md cursor-pointer transition-all ${
-                selectedTemplate == eachTemplate.id
-                  ? "border-blue-300 bg-blue-100"
-                  : "border-gray-400 hover:bg-gray-200"
-              }`}
-            >
-              {selectedTemplate === eachTemplate.id && (
-                <div className="absolute top-2 right-2">
-                  <div className="size-5 bg-blue-400 rounded-full flex items-center justify-center">
-                    <Check className="w-3 h-3 text-white" />
-                  </div>
-                </div>
-              )}
-              <div className="space-y-1">
-                <h4 className="font-medium text-gray-800">
-                  {eachTemplate.name}
-                </h4>
-                <div className="mt-2 p-2 bg-blue-50 rounded text-xs text-gray-500 italic">
-                  {eachTemplate.preview}
-                </div>
-              </div>
-            </div>;
-          })} */}
           {templates.map((eachTemplate) => (
             <div
               key={eachTemplate.id}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { dummyResumeData } from "../assets/assets";
+import { dummyResumeData } from "../../../assets/assets";
 import {
   ArrowLeftIcon,
   Briefcase,
@@ -16,15 +16,15 @@ import {
   Sparkle,
   User,
 } from "lucide-react";
-import PersonalInfoForm from "../components/PersonalInfoForm";
-import ResumePreview from "../components/ResumePreview";
-import TemplateSelector from "../components/TemplateSelector";
-import ColorPicker from "../components/ColorPicker";
-import ProfessionalSummeryForm from "../components/ProfessionalSummeryForm";
-import ExperienceForm from "../components/ExperienceForm";
-import EductionForm from "../components/EductionForm";
-import ProjectForm from "../components/ProjectForm";
-import SkillsForm from "../components/SkillsForm";
+import PersonalInfoForm from "../../../components/PersonalInfo/PersonalInfoForm";
+import ResumePreview from "../../../components/ResumePreview/ResumePreview";
+import TemplateSelector from "../../../components/ResumeTemplateSelector/TemplateSelector";
+import ColorPicker from "../../../components/ColorPickerforResume/ColorPicker";
+import ProfessionalSummeryForm from "../../../components/professionalInfo/ProfessionalSummeryForm";
+import ExperienceForm from "../../../components/Experience/ExperienceForm";
+import EductionForm from "../../../components/Education/EductionForm";
+import ProjectForm from "../../../components/Projects/ProjectForm";
+import SkillsForm from "../../../components/Skills/SkillsForm";
 
 const ResumeBuilder = () => {
   const { resumeId } = useParams();
@@ -293,7 +293,8 @@ const ResumeBuilder = () => {
                     onClick={handleShare}
                     className="flex items-center p-2 gap-2 px-4 py-2 text-xs bg-linear-to-r from-blue-100 to-blue-200 text-blue-500  rounded-lg ring-blue-200 hover:ring transition-colors"
                   >
-                    <Share2Icon className="size-4" />Share
+                    <Share2Icon className="size-4" />
+                    Share
                   </button>
                 )}
                 <button
@@ -311,7 +312,8 @@ const ResumeBuilder = () => {
                   onClick={downloadResume}
                   className="flex items-center p-2 gap-2 px-4 py-2 text-xs bg-linear-to-r from-green-100 to-green-200 text-green-500  rounded-lg ring-green-200 hover:ring transition-colors"
                 >
-                  <DownloadIcon />Download
+                  <DownloadIcon />
+                  Download
                 </button>
               </div>
             </div>
