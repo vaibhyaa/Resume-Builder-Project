@@ -1,13 +1,15 @@
 import { XIcon } from "lucide-react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const EditResume = ({
   editResumeId,
   seteditResumeId,
   settitleName,
   titleName,
-  // updateResumeTitle,
+  updateResumeTitle,
 }) => {
+  const navigatore = useNavigate();
   if (!editResumeId) return null;
   return (
     <div>
@@ -15,6 +17,12 @@ const EditResume = ({
         <form
           onSubmit={async (e) => {
             e.preventDefault();
+            if (updateResumeTitle) {
+              await updateResumeTitle(editResumeId, titleName);
+            }
+            seteditResumeId("");
+            settitleName("");
+            navigatore(`/app/resume-builder/${editResumeId}/edit`);
             // seteditResumeId(false);
             // navigate("/app/resume-builder/new");
             // navigate("/app/resume-builder/new/123");
@@ -24,9 +32,11 @@ const EditResume = ({
             // updateResumeTitle(editResumeId, titleName);
             // seteditResumeId("");
           }}
-          onClick={() => {
-            seteditResumeId("");
-          }}
+          // onClick={() => {
+          //   seteditResumeId("");
+          //   settitleName("");
+          //   navigatore(`/app/resume-builder/${editResumeId}/edit`);
+          // }}
           action=""
           className="fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50
             z-10 flex items-center justify-center"
@@ -41,7 +51,6 @@ const EditResume = ({
             <input
               onChange={(e) => {
                 const value = e.target.value;
-                // console.log(value);
                 settitleName(value);
               }}
               value={titleName}

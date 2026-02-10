@@ -1,6 +1,10 @@
-import { UploadCloudIcon, XIcon } from "lucide-react";
-import React from "react";
+import { LoaderCircleIcon, UploadCloudIcon, XIcon } from "lucide-react";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+// import api from "../../configs/api.js";
+import { useSelector } from "react-redux";
+import pdfToText from "react-pdftotext";
 
 const UploadResumeForm = ({
   titleName,
@@ -11,6 +15,8 @@ const UploadResumeForm = ({
   setresume,
 }) => {
   const navigate = useNavigate();
+  const [isLoading, setisLoading] = useState(false);
+  const { token } = useSelector((state) => state.auth);
 
   return (
     <>
@@ -18,19 +24,45 @@ const UploadResumeForm = ({
         <form
           onSubmit={async (e) => {
             e.preventDefault();
-            setshowUploadResume(false);
-            const fakeId = crypto.randomUUID();
-            navigate(`/app/resume-builder/${fakeId}/edit`);
+            if (!resume) {
+              toast.error("Please upload a PDF resume");
+              return;
+            }
+            setisLoading(true);
+            try {
+              const resumeText = await pdfToText(resume); // extract text
+              //   console.log("Resume text length:", resumeText.length);
 
-            // navigate("/app/resume-builder/123/edit");
+              const res = await fetch("/api/ai/upload-resume", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ title: titleName, resumeText }),
+              });
+
+              if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.message || `Error ${res.status}`);
+              }
+              const data = await res.json();
+              setshowUploadResume(false);
+              settitleName("");
+              setresume(null);
+              navigate(`/app/resume-builder/${data.resumeId}/edit`);
+            } catch (error) {
+              console.log(error);
+
+              toast.error(error?.response?.data?.message || error.message);
+            } finally {
+              setisLoading(false);
+            }
+            // navigate(`/app/resume-builder/${resumeId}/edit`);
             // Prevents page refresh
             // Closes popup
             // Navigates to resume builder page
           }}
-          onClick={() => {
-            setshowUploadResume(false);
-          }}
-          action=""
           className="fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50
             z-10 flex items-center justify-center"
         >
@@ -44,7 +76,6 @@ const UploadResumeForm = ({
             <input
               onChange={(e) => {
                 const value = e.target.value;
-                // console.log(value);
                 settitleName(value);
               }}
               value={titleName}
@@ -79,8 +110,14 @@ const UploadResumeForm = ({
                 onChange={(e) => setresume(e.target.files[0])}
               />
             </div>
-            <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-800 transition-colors">
-              Upload Resume
+            <button
+              disabled={isLoading}
+              className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-800 transition-colors"
+            >
+              {isLoading && (
+                <LoaderCircleIcon className="animate-spin size-4 text-white" />
+              )}
+              {isLoading ? "Uploading" : "Upload Resume"}
             </button>
             <XIcon
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"

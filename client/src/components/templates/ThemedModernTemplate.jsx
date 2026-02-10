@@ -1,6 +1,6 @@
 import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
 
-const ModernTemplate = ({ data, accentColor }) => {
+const ThemedModernTemplate = ({ data, accentColor = "#2563eb" }) => {
   const formatDate = (dateStr) => {
     if (!dateStr) return "";
     const [year, month] = dateStr.split("-");
@@ -11,186 +11,187 @@ const ModernTemplate = ({ data, accentColor }) => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto bg-zinc-50 text-zinc-800 shadow-lg rounded-xl overflow-hidden">
-      {/* HERO HEADER */}
-      <div className="relative px-10 py-12 bg-linear-to-r from-zinc-900 to-zinc-800 text-white">
+    <div className="w-full max-w-6xl mx-auto bg-white text-gray-800 shadow-lg rounded-lg overflow-hidden print-container">
+      {/* HEADER */}
+      <header className="px-10 py-8 bg-gray-900 text-white relative">
         <div
           className="absolute inset-0 opacity-10"
           style={{ backgroundColor: accentColor }}
         />
+        <div className="relative z-10">
+          <h1 className="text-4xl font-bold tracking-wide">
+            {data.personal_info?.full_name || "Your Name"}
+          </h1>
+          <p className="uppercase tracking-widest text-sm text-gray-300 mt-1">
+            {data.personal_info?.profession || "Profession"}
+          </p>
 
-        <h1 className="text-4xl font-semibold tracking-wide relative z-10">
-          {data.personal_info?.full_name || "Your Name"}
-        </h1>
-        <p className="text-sm uppercase tracking-widest mt-2 text-zinc-300 relative z-10">
-          {data.personal_info?.profession || "Profession"}
-        </p>
-
-        {/* CONTACT STRIP */}
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm relative z-10">
-          {data.personal_info?.email && (
-            <div className="flex items-center gap-2">
-              <Mail size={14} />
-              <span>{data.personal_info.email}</span>
-            </div>
-          )}
-          {data.personal_info?.phone && (
-            <div className="flex items-center gap-2">
-              <Phone size={14} />
-              <span>{data.personal_info.phone}</span>
-            </div>
-          )}
-          {data.personal_info?.location && (
-            <div className="flex items-center gap-2">
-              <MapPin size={14} />
-              <span>{data.personal_info.location}</span>
-            </div>
-          )}
-          {data.personal_info?.website && (
-            <div className="flex items-center gap-2">
-              <Globe size={14} />
-              <span>{data.personal_info.website}</span>
-            </div>
-          )}
-          {data.personal_info?.linkedin && (
-            <div className="flex items-center gap-2">
-              <Linkedin size={14} />
-              <span className="break-all">
-                {data.personal_info.linkedin.replace("https://", "")}
-              </span>
-            </div>
-          )}
+          {/* CONTACT */}
+          <div className="flex flex-wrap gap-6 mt-5 text-sm">
+            {data.personal_info?.email && (
+              <div className="flex items-center gap-2">
+                <Mail size={14} /> {data.personal_info.email}
+              </div>
+            )}
+            {data.personal_info?.phone && (
+              <div className="flex items-center gap-2">
+                <Phone size={14} /> {data.personal_info.phone}
+              </div>
+            )}
+            {data.personal_info?.location && (
+              <div className="flex items-center gap-2">
+                <MapPin size={14} /> {data.personal_info.location}
+              </div>
+            )}
+            {data.personal_info?.website && (
+              <div className="flex items-center gap-2">
+                <Globe size={14} /> {data.personal_info.website}
+              </div>
+            )}
+            {data.personal_info?.linkedin && (
+              <div className="flex items-center gap-2 break-all">
+                <Linkedin size={14} /> {data.personal_info.linkedin}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* BODY */}
-      <div className="p-10 space-y-10">
-        {/* SUMMARY CARD */}
-        {data.professional_summary && (
-          <section className="bg-white rounded-lg p-6 shadow-sm border-l-4"
-            style={{ borderColor: accentColor }}
-          >
-            <h2 className="text-lg font-semibold mb-3">Profile</h2>
-            <p className="text-sm leading-relaxed text-zinc-700">
-              {data.professional_summary}
-            </p>
-          </section>
-        )}
-
-        {/* EXPERIENCE TIMELINE */}
-        {data.experience?.length > 0 && (
-          <section>
-            <h2 className="text-xl font-semibold mb-6">Experience</h2>
-
-            <div className="space-y-8">
-              {data.experience.map((exp, index) => (
-                <div key={index} className="relative pl-8">
-                  <span
-                    className="absolute left-0 top-2 w-3 h-3 rounded-full"
-                    style={{ backgroundColor: accentColor }}
-                  />
-
-                  <div className="bg-white rounded-lg p-5 shadow-sm">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-semibold text-zinc-900">
-                          {exp.position}
-                        </h3>
-                        <p
-                          className="text-sm font-medium"
-                          style={{ color: accentColor }}
-                        >
-                          {exp.company}
-                        </p>
-                      </div>
-                      <span className="text-xs text-zinc-500">
-                        {formatDate(exp.start_date)} –{" "}
-                        {exp.is_current ? "Present" : formatDate(exp.end_date)}
-                      </span>
-                    </div>
-
-                    {exp.description && (
-                      <p className="text-sm text-zinc-700 mt-3 whitespace-pre-line">
-                        {exp.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ))}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-10 p-10">
+        {/* LEFT SIDEBAR */}
+        <aside className="space-y-8 md:border-r pr-0 md:pr-6">
+          {/* SUMMARY */}
+          {data.professional_summary && (
+            <div>
+              <h2
+                className="text-lg font-semibold border-b pb-2 mb-3"
+                style={{ borderColor: accentColor, color: accentColor }}
+              >
+                Profile
+              </h2>
+              <p className="text-sm leading-relaxed text-gray-700">
+                {data.professional_summary}
+              </p>
             </div>
-          </section>
-        )}
-
-        {/* PROJECTS */}
-        {data.project?.length > 0 && (
-          <section>
-            <h2 className="text-xl font-semibold mb-6">Projects</h2>
-
-            <div className="grid sm:grid-cols-2 gap-6">
-              {data.project.map((p, index) => (
-                <div
-                  key={index}
-                  className="bg-white p-5 rounded-lg shadow-sm border-t-4"
-                  style={{ borderColor: accentColor }}
-                >
-                  <h3 className="font-semibold text-zinc-900">{p.name}</h3>
-                  {p.description && (
-                    <p className="text-sm text-zinc-700 mt-2">
-                      {p.description}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* EDUCATION + SKILLS */}
-        <div className="grid sm:grid-cols-2 gap-10">
-          {data.education?.length > 0 && (
-            <section>
-              <h2 className="text-xl font-semibold mb-4">Education</h2>
-              <div className="space-y-4">
-                {data.education.map((edu, index) => (
-                  <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
-                    <h3 className="font-semibold">
-                      {edu.degree} {edu.field && `in ${edu.field}`}
-                    </h3>
-                    <p
-                      className="text-sm font-medium"
-                      style={{ color: accentColor }}
-                    >
-                      {edu.institution}
-                    </p>
-                    <p className="text-xs text-zinc-500 mt-1">
-                      {formatDate(edu.graduation_date)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
           )}
 
+          {/* SKILLS */}
           {data.skills?.length > 0 && (
-            <section>
-              <h2 className="text-xl font-semibold mb-4">Skills</h2>
+            <div>
+              <h2
+                className="text-lg font-semibold border-b pb-2 mb-3"
+                style={{ borderColor: accentColor, color: accentColor }}
+              >
+                Skills
+              </h2>
               <div className="flex flex-wrap gap-2">
-                {data.skills.map((skill, index) => (
+                {data.skills.map((skill, i) => (
                   <span
-                    key={index}
-                    className="px-3 py-1 rounded-full text-xs font-medium text-white"
+                    key={i}
+                    className="px-3 py-1 rounded-full text-xs font-semibold text-white"
                     style={{ backgroundColor: accentColor }}
                   >
                     {skill}
                   </span>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* EDUCATION */}
+          {data.education?.length > 0 && (
+            <div>
+              <h2
+                className="text-lg font-semibold border-b pb-2 mb-3"
+                style={{ borderColor: accentColor, color: accentColor }}
+              >
+                Education
+              </h2>
+              <ul className="space-y-4">
+                {data.education.map((edu, i) => (
+                  <li key={i}>
+                    <p className="font-semibold text-sm">
+                      {edu.degree} {edu.field && `in ${edu.field}`}
+                    </p>
+                    <p className="text-xs text-gray-500">{edu.institution}</p>
+                    <p className="text-[11px] text-gray-500 mt-1">
+                      {formatDate(edu.graduation_date)}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </aside>
+
+        {/* RIGHT MAIN CONTENT */}
+        <main className="md:col-span-2 space-y-10">
+          {/* EXPERIENCE */}
+          {data.experience?.length > 0 && (
+            <section>
+              <h2
+                className="text-xl font-semibold mb-6 tracking-wide"
+                style={{ color: accentColor }}
+              >
+                Experience
+              </h2>
+
+              <div className="space-y-6">
+                {data.experience.map((exp, i) => (
+                  <div key={i} className="relative border-l pl-6">
+                    <span
+                      className="absolute left-0 top-2 w-3 h-3 rounded-full"
+                      style={{ backgroundColor: accentColor }}
+                    />
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-semibold">{exp.position}</h3>
+                        <p className="text-sm text-gray-600">{exp.company}</p>
+                      </div>
+                      <span className="text-xs text-gray-500">
+                        {formatDate(exp.start_date)} –{" "}
+                        {exp.is_current ? "Present" : formatDate(exp.end_date)}
+                      </span>
+                    </div>
+                    {exp.description && (
+                      <p className="text-sm text-gray-700 whitespace-pre-line mt-2">
+                        {exp.description}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
             </section>
           )}
-        </div>
-      </div>
+
+          {/* PROJECTS */}
+          {data.project?.length > 0 && (
+            <section>
+              <h2
+                className="text-xl font-semibold mb-6 tracking-wide"
+                style={{ color: accentColor }}
+              >
+                Projects
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {data.project.map((p, i) => (
+                  <div
+                    key={i}
+                    className="bg-white p-5 rounded-lg shadow-sm border-t-4"
+                    style={{ borderColor: accentColor }}
+                  >
+                    <h3 className="font-semibold">{p.name}</h3>
+                    <p className="text-sm text-gray-600 mt-2">{p.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </main>
+      </section>
     </div>
   );
 };
 
-export default ModernTemplate;
+export default ThemedModernTemplate;

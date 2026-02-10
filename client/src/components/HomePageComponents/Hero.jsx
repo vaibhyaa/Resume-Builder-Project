@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 
 export const Hero = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user } = useSelector((state) => state.auth);
 
   const logos = [
     "https://saasly.prebuiltui.com/assets/companies-logo/instagram.svg",
@@ -66,17 +68,26 @@ export const Hero = () => {
           <div className="flex gap-2">
             <Link
               // to={"/app?state=register"}
-              to={"/login/?state=register"}
+              to={"/login?state=register"}
+              hidden={user}
               className="hidden md:block px-6 py-2 bg-indigo-500 hover:bg-indigo-700 active:scale-95 transition-all rounded-full text-white"
             >
               Get started
             </Link>
             <Link
-              // to={"/app?state=Login"}
-              to={"/login/?state=login"}
+              // to={"/app?state=login"}
+              to={"/login?state=login"}
+              hidden={user}
               className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-50 transition-all rounded-full text-slate-700 hover:text-slate-900"
             >
               Login
+            </Link>
+            <Link
+              to={"/app"}
+              hidden={!user}
+              className="hidden md:block px-6 py-2 bg-indigo-500 hover:bg-indigo-700 active:scale-95 transition-all rounded-full text-white"
+            >
+              Dashboard
             </Link>
           </div>
 

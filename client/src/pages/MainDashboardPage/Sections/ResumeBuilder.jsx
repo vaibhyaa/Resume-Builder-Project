@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { dummyResumeData } from "../../../assets/assets";
+import { Link, useNavigate, useParams } from "react-router-dom";
+// import { dummyResumeData } from "../../../assets/assets";
 import {
   ArrowLeftIcon,
   Briefcase,
@@ -27,6 +27,7 @@ import ProjectForm from "../../../components/Projects/ProjectForm";
 import SkillsForm from "../../../components/Skills/SkillsForm";
 
 const ResumeBuilder = () => {
+  const navigate = useNavigate();
   const { resumeId } = useParams();
   const [resumeData, setresumeData] = useState({
     _id: "",
@@ -48,21 +49,91 @@ const ResumeBuilder = () => {
 
   const [activateSectionIndex, setactivateSectionIndex] = useState(0);
   const [removeBackground, setremoveBackground] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
-  const loadExistingResume = async () => {
-    const resume = dummyResumeData.find((resume) => resume._id === resumeId);
-    if (resume) {
-      setresumeData(resume);
-      document.title = resume.title;
+  // const loadExistingResume = async () => {
+  //   const resume = dummyResumeData.find((resume) => resume._id === resumeId);
+  //   if (resume) {
+  //     setresumeData(resume);
+  //     document.title = resume.title;
+  //   }
+  // };
+
+  useEffect(() => {
+    if (!resumeId) return;
+
+    const fetchResume = async () => {
+      try {
+        setLoading(true);
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+
+        const res = await fetch(`/api/resumes/get/${resumeId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.message);
+
+        setresumeData(data.resume);
+        document.title = data.resume.title;
+      } catch (error) {
+        console.error(error.message);
+        alert("Resume not found");
+        navigate("/app");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResume();
+  }, [resumeId, navigate]);
+
+  // save functionality
+  const saveChanges = async () => {
+    try {
+      setSaving(true);
+
+      const token = localStorage.getItem("token");
+
+      const res = await fetch("/api/resumes/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          resumeId: resumeData._id,
+          resumeData,
+          removeBackground,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message);
+
+      alert("Resume saved successfully!");
+    } catch (error) {
+      // console.error(error.message);
+      alert("Error saving resume");
+    } finally {
+      setSaving(false);
     }
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      await loadExistingResume();
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     await loadExistingResume();
+  //   }
+  //   fetchData();
+  // }, []);
 
   const sections = [
     { id: "personal", name: "personal info", icon: User },
@@ -75,33 +146,86 @@ const ResumeBuilder = () => {
 
   const activeSection = sections[activateSectionIndex];
 
-  async function changeResumeVisibility() {
-    // API CALL TO CHANGE RESUME VISIBILITY
-    setresumeData((prev) => ({ ...prev, public: !prev.public }));
-  }
+  // async function changeResumeVisibility() {
+  //   // API CALL TO CHANGE RESUME VISIBILITY
+  //   setresumeData((prev) => ({ ...prev, public: !prev.public }));
+  // }
+  const changeResumeVisibility = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-  async function handleShare() {
-    const frontendURL = window.location.href.split("/app/")[0];
-    const resumeURL = `${frontendURL}/view/${resumeData._id}`;
-    if (navigator.share) {
-      navigator
-        .share({
-          title: "Check out my resume",
-          text: "Here is the link to my resume:",
-          url: resumeURL,
-        })
-        .then(() => console.log("Successful share"))
-        .catch((error) => console.log("Error sharing", error));
-    } else {
-      alert(
-        "Sharing not supported on this browser. Copy this link: " + resumeURL
-      );
+      const res = await fetch("/api/resumes/toggle-visibility", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          resumeId: resumeData._id,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      setresumeData((prev) => ({
+        ...prev,
+        public: data.public,
+      }));
+    } catch (error) {
+      console.error(error.message);
+      alert("Error updating visibility");
     }
-  }
+  };
+
+  // async function handleShare() {
+  //   const frontendURL = window.location.href.split("/app/")[0];
+  //   const resumeURL = `${frontendURL}/view/${resumeData._id}`;
+  //   if (navigator.share) {
+  //     navigator
+  //       .share({
+  //         title: "Check out my resume",
+  //         text: "Here is the link to my resume:",
+  //         url: resumeURL,
+  //       })
+  //       .then(() => console.log("Successful share"))
+  //       .catch((error) => console.log("Error sharing", error));
+  //   } else {
+  //     alert(
+  //       "Sharing not supported on this browser. Copy this link: " + resumeURL,
+  //     );
+  //   }
+  // }
+
+  const handleShare = async () => {
+    const resumeURL = `${window.location.origin}/view/${resumeData._id}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "Check out my resume",
+          url: resumeURL,
+        });
+      } else {
+        await navigator.clipboard.writeText(resumeURL);
+        alert("Resume link copied to clipboard!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   async function downloadResume() {
     // API CALL TO DOWNLOAD RESUME
     window.print();
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-500 text-lg">Loading Resume...</p>
+      </div>
+    );
   }
 
   return (
@@ -278,8 +402,17 @@ const ResumeBuilder = () => {
                   />
                 )}
               </div>
-              <button className="bg-linear-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm">
+              {/* <button className="bg-linear-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm">
                 SAVE CHANGES
+              </button> */}
+              <button
+                onClick={saveChanges}
+                disabled={saving}
+                className="bg-linear-to-br from-green-100 to-green-200 ring-green-300 
+             text-green-600 ring hover:ring-green-400 transition-all 
+             rounded-md px-6 py-2 mt-6 text-sm disabled:opacity-50"
+              >
+                {saving ? "Saving..." : "SAVE CHANGES"}
               </button>
             </div>
           </div>
@@ -332,3 +465,110 @@ const ResumeBuilder = () => {
 };
 
 export default ResumeBuilder;
+
+// /* ===========================
+//    FETCH RESUME FROM BACKEND
+// ============================ */
+// useEffect(() => {
+//   const fetchResume = async () => {
+//     try {
+//       const token = localStorage.getItem("token");
+
+//       if (!token) {
+//         navigate("/login");
+//         return;
+//       }
+
+//       const res = await fetch(`/api/resumes/get/${resumeId}`, {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+
+//       const data = await res.json();
+
+//       if (!res.ok) {
+//         throw new Error(data.message || "Failed to fetch resume");
+//       }
+
+//       setresumeData(data.resume);
+//       document.title = data.resume.title;
+//     } catch (error) {
+//       console.error(error.message);
+//       alert("Resume not found");
+//       navigate("/app");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   if (resumeId) {
+//     fetchResume();
+//   }
+// }, [resumeId, navigate]);
+
+// /* ===========================
+//    SAVE RESUME
+// ============================ */
+// const saveChanges = async () => {
+//   try {
+//     setSaving(true);
+
+//     const token = localStorage.getItem("token");
+
+//     const res = await fetch("/api/resumes/update", {
+//       method: "PUT",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify({
+//         resumeId: resumeData._id,
+//         resumeData,
+//         removeBackground,
+//       }),
+//     });
+
+//     const data = await res.json();
+
+//     if (!res.ok) {
+//       throw new Error(data.message || "Update failed");
+//     }
+
+//     alert("Resume saved successfully");
+//   } catch (error) {
+//     console.error(error.message);
+//     alert("Error saving resume");
+//   } finally {
+//     setSaving(false);
+//   }
+// };
+
+// /* ===========================
+//    TOGGLE PUBLIC
+// ============================ */
+// const changeResumeVisibility = async () => {
+//   setresumeData((prev) => ({ ...prev, public: !prev.public }));
+// };
+
+// /* ===========================
+//    SHARE
+// ============================ */
+// const handleShare = () => {
+//   const frontendURL = window.location.origin;
+//   const resumeURL = `${frontendURL}/view/${resumeData._id}`;
+
+//   navigator.clipboard.writeText(resumeURL);
+//   alert("Resume link copied to clipboard!");
+// };
+
+// /* ===========================
+//    DOWNLOAD
+// ============================ */
+// const downloadResume = () => {
+//   window.print();
+// };
+
+// if (loading) {
+//   return <div className="text-center py-20">Loading...</div>;
+// }
